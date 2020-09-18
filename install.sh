@@ -24,5 +24,5 @@ PMABLOWFISH=$PASSRESULTS
 # Update System
 #yum -y install epel-release
 #yum -y install wget certbot openssl
-wget -O /etc/yum.repos.d/MariaDB.repo --header 'Authorization: token cfba07f91d8081d7f14189f4512348333c534e89' https://raw.githubusercontent.com/okfsoft/openlitespeed-autoinstall-centos/master/repository/MariaDB.repo
+wget -O /etc/yum.repos.d/MariaDB.repo https://raw.githubusercontent.com/okfsoft/openlitespeed-autoinstall-centos/master/repository/MariaDB.repo?token=ALAZOKSRP3YNT6E473CIHVK7MUE2Y
 yum -y update
