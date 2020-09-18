@@ -19,6 +19,7 @@ function GetRandomPassword {
 GetRandomPassword
 PWD_SQL=$PASSRESULTS
 PWD_PMA=$PASSRESULTS
+#
 
 echo -e "${GREEN}
 	 OOOOOOOOOOO   KKK   KKK  FFFFFFFF  LLL             AAAAA        SSSSSSSSSSS  HHH     HHH 
@@ -30,7 +31,7 @@ echo -e "${GREEN}
 	OOO       OOO  KKK  KKK   FFF       LLLLLLLL  AAA           AAA  SSSSSSSSSSS  HHH     HHH
 	 OOOOOOOOOOO   KKK   KKK  FFF       LLLLLLLL AAA             AAA SSSSSSSSSSS  HHH     HHH${SET}"
 echo -e ""
-echo -e "${RED}Open Lite Speed Auto Installer - https://www.okflash.net${SET}"
+echo -e "${RED}		Open Lite Speed Auto Installer - https://www.okflash.net${SET}"
 echo -e ""
 echo -e ""
 
