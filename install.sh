@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #CONFIG
+RED='\033[0;31m'
 GREEN='\033[0;32m'
 SET='\033[0m'
 PASSRESULTS='NULL'
@@ -20,7 +21,7 @@ PWD_SQL=$PASSRESULTS
 PWD_PMA=$PASSRESULTS
 #
 
-echo -e "
+echo -e "${GREEN}
 	 OOOOOOOOOOO   KKK   KKK  FFFFFFFF  LLL             AAAAA        SSSSSSSSSSS  HHH     HHH 
 	OOO       OOO  KKK  KKK   FFFFFFFF  LLL            AAA AAA       SSSSSSSSSSS  HHH     HHH
 	OOO       OOO  KKK KKK    FFF       LLL           AAA   AAA      SSS          HHH     HHH
@@ -28,10 +29,11 @@ echo -e "
 	OOO       OOO  KKKKK      FFFFFFFF  LLL         AAAAAAAAAAAAA    SSSSSSSSSSS  HHHHHHHHHHH
 	OOO       OOO  KKK KKK    FFF       LLL        AAAAAAAAAAAAAAA           SSS  HHH     HHH
 	OOO       OOO  KKK  KKK   FFF       LLLLLLLL  AAA           AAA  SSSSSSSSSSS  HHH     HHH
-	 OOOOOOOOOOO   KKK   KKK  FFF       LLLLLLLL AAA             AAA SSSSSSSSSSS  HHH     HHH"
-read -e ""
-read -e "Open Lite Speed Auto Installer - https://www.okflash.net"
-read -e ""
+	 OOOOOOOOOOO   KKK   KKK  FFF       LLLLLLLL AAA             AAA SSSSSSSSSSS  HHH     HHH${SET}"
+echo -e ""
+echo -e "${RED}Open Lite Speed Auto Installer - https://www.okflash.net${SET}"
+echo -e ""
+echo -e ""
 
 read -e -p "PHP type to be installed [56/70/71/72/73/N] : " phpversion
 read -e -p "Install MariaDB 10.3 [y/N] : " mariadb
