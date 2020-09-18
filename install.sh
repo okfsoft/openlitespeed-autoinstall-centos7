@@ -19,7 +19,6 @@ function GetRandomPassword {
 GetRandomPassword
 PWD_SQL=$PASSRESULTS
 PWD_PMA=$PASSRESULTS
-#
 
 echo -e "${GREEN}
 	 OOOOOOOOOOO   KKK   KKK  FFFFFFFF  LLL             AAAAA        SSSSSSSSSSS  HHH     HHH 
