@@ -18,28 +18,7 @@ PWD_SQL=$PASSRESULTS
 PWD_PMA=$PASSRESULTS
 #
 
-  echo "
-        .;;,.
-        .ccccc:,.
-         :cccclll:.      ..,,
-          :ccccclll.   ;ooodc
-           'ccll:;ll .oooodc
-             .;cll.;;looo:.
-                 .. ','.
-                .',,,,,,'.
-              .',,,,,,,,,,.
-            .',,,,,,,,,,,,....
-          ....''',,,,,,,'.......
-        .........  ....  .........
-        ..........      ..........
-        ..........      ..........
-        .........  ....  .........
-          ........,,,,,,,'......
-            ....',,,,,,,,,,,,.
-               .',,,,,,,,,'.
-                .',,,,,,'.
-                  ..'''.
-"
+echo "::: Script called with non-root privileges. The Pi-hole installs server packages and configures"
 
 read -e -p "PHP type to be installed [56/70/71/72/73/N] : " phpversion
 read -e -p "Install MariaDB 10.3 [y/N] : " webmin
