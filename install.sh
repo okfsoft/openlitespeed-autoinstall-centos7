@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #CONFIG
+GREEN='\033[0;32m'
+SET='\033[0m'
 PASSRESULTS='NULL'
 RAW_GIT=https://raw.githubusercontent.com/okfsoft/openlitespeed-autoinstall-centos7/master
 OLS_DIR=/usr/local/lsws
@@ -17,14 +19,14 @@ GetRandomPassword
 PWD_SQL=$PASSRESULTS
 PWD_PMA=$PASSRESULTS
 #
-clear
+
 echo -e "
 	 OOOOOOOOOOO   KKK   KKK  FFFFFFFF  LLL             AAAAA        SSSSSSSSSSS  HHH     HHH 
 	OOO       OOO  KKK  KKK   FFFFFFFF  LLL            AAA AAA       SSSSSSSSSSS  HHH     HHH
 	OOO       OOO  KKK KKK    FFF       LLL           AAA   AAA      SSS          HHH     HHH
 	OOO       OOO  KKKKK      FFFFFFFF  LLL          AAA     AAA     SSSSSSSSSSS  HHHHHHHHHHH
 	OOO       OOO  KKKKK      FFFFFFFF  LLL         AAAAAAAAAAAAA    SSSSSSSSSSS  HHHHHHHHHHH
-	OOO       OOO  KKK KKK    FFF       LLL        AAAAAAAAAAAAAAA   SSS          HHH     HHH
+	OOO       OOO  KKK KKK    FFF       LLL        AAAAAAAAAAAAAAA           SSS  HHH     HHH
 	OOO       OOO  KKK  KKK   FFF       LLLLLLLL  AAA           AAA  SSSSSSSSSSS  HHH     HHH
 	 OOOOOOOOOOO   KKK   KKK  FFF       LLLLLLLL AAA             AAA SSSSSSSSSSS  HHH     HHH"
 read -e ""
