@@ -20,7 +20,9 @@ GetRandomPassword
 PWD_SQL=$PASSRESULTS
 PWD_PMA=$PASSRESULTS
 #
-
+clear
+echo -e ""
+echo -e ""
 echo -e "${GREEN}
 	 OOOOOOOOOOO   KKK   KKK  FFFFFFFF  LLL             AAAAA        SSSSSSSSSSS  HHH     HHH 
 	OOO       OOO  KKK  KKK   FFFFFFFF  LLL            AAA AAA       SSSSSSSSSSS  HHH     HHH
