@@ -1,2 +1,2 @@
 # openlitespeed-autoinstall-centos
-Automatic Openlitespeed Installation Script for CentOS
+Automatic Openlitespeed Installation Script for CentOS7
