@@ -4,6 +4,9 @@
 PASSRESULTS='NULL'
 GREEN='\033[0;32m'
 SET='\033[0m'
+#
+RAW_GIT=--header 'Authorization: token cfba07f91d8081d7f14189f4512348333c534e89' https://raw.githubusercontent.com/okfsoft/openlitespeed-autoinstall-centos/master
+LSWSDIR=/usr/local/lsws
 
 #Random Password Generator
 function GetRandomPassword {
@@ -18,4 +21,8 @@ ROOTSQLPWD=$PASSRESULTS
 PMABLOWFISH=$PASSRESULTS
 #
 
-echo -e "${GREEN}-----> $ROOTSQLPWD ${SET}"
+# Update System
+#yum -y install epel-release
+#yum -y install wget certbot openssl
+wget -O /etc/yum.repos.d/MariaDB.repo $RAW_GIT/repository/MariaDB.repo
+yum -y update
