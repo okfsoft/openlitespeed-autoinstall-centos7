@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#set -e
-
 COL_NC='\e[0m' # No Color
 COL_LIGHT_GREEN='\e[1;32m'
 COL_LIGHT_RED='\e[1;31m'
@@ -16,20 +14,20 @@ PASS_RESULTS='NULL'
 RAW_GIT=https://raw.githubusercontent.com/okfsoft/openlitespeed-autoinstall-centos7/master
 WEB_DIR=/usr/local/lsws
 
-#Random Password Generator
+#Password Generator
 function GetRandomPassword {
-    dd if=/dev/urandom bs=8 count=1 of=/tmp/random_password >/dev/null 2>&1
-    PASS_RESULTS=`cat /tmp/random_password`
-    rm /tmp/random_password
+    dd if=/dev/urandom bs=8 count=1 of=/tmp/gen_password >/dev/null 2>&1
+    PASS_RESULTS=`cat /tmp/gen_password`
+    rm /tmp/gen_password
     local DATE=`date`
     PASS_RESULTS=`echo "$PASS_RESULTS$RANDOM$DATE" |  md5sum | base64 | head -c 32`
 }
+
 GetRandomPassword
 PWD_SQL_DATABASE=$PASS_RESULTS
 PWD_PHP_MYADMIN=$PASS_RESULTS
 
-
-#Checking SELinux Status
+#Checking SELinux
 CheckSelinuxStatus() {
     local DEFAULT_SELINUX
     local CURRENT_SELINUX
@@ -41,7 +39,7 @@ CheckSelinuxStatus() {
                 printf "  %b %bDefault SELinux: %s%b\\n" "${CROSS}" "${COL_LIGHT_RED}" "${DEFAULT_SELINUX}" "${COL_NC}"
                 SELINUX_ENFORCING=1
                 ;;
-            *)  # 'permissive' and 'disabled'
+            *)
                 printf "  %b %bDefault SELinux: %s%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${DEFAULT_SELINUX}" "${COL_NC}"
                 ;;
         esac
@@ -51,7 +49,7 @@ CheckSelinuxStatus() {
                 printf "  %b %bCurrent SELinux: %s%b\\n" "${CROSS}" "${COL_LIGHT_GREEN}" "${CURRENT_SELINUX}" "${COL_NC}"
                 SELINUX_ENFORCING=1
                 ;;
-            *)  # 'permissive' and 'disabled'
+            *)
                 printf "  %b %bCurrent SELinux: %s%b\\n" "${TICK}" "${COL_LIGHT_GREEN}" "${CURRENT_SELINUX}" "${COL_NC}"
                 ;;
         esac
@@ -113,21 +111,21 @@ echo -e "    4. PHP 7.2"
 echo -e "    5. PHP 7.3"
 echo -e "    6. PHP 7.4"
 echo -e ""
-read -e -p "::: SELECT NUMBER : " phpversion
+read -e -p "::: SELECT NUMBER PHP VERSION : " phpversion
 
 #Select PHP Version
 if [[ ("$phpversion" == "1") ]]; then
-	phpversioninstallation=56
+	verphpinstall=56
 elif [[ ("$phpversion" == "2") ]]; then
-	phpversioninstallation=70
+	verphpinstall=70
 elif [[ ("$phpversion" == "3") ]]; then
-	phpversioninstallation=71
+	verphpinstall=71
 elif [[ ("$phpversion" == "4") ]]; then
-	phpversioninstallation=72
+	verphpinstall=72
 elif [[ ("$phpversion" == "5") ]]; then
-	phpversioninstallation=73
+	verphpinstall=73
 elif [[ ("$phpversion" == "6") ]]; then
-	phpversioninstallation=74
+	verphpinstall=74
 else
  exit 1
 fi;
@@ -138,15 +136,15 @@ echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::"
 echo -e "::: Choose a number, Database type to be installed :::"
 echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::"
 echo -e ""
-echo -e "   1. Percona Server 5.6"
-echo -e "   2. MariaDB 10.3"
+echo -e "   1. MariaDB 10.3"
+echo -e "   2. Percona Server 5.6"
 echo -e ""
-read -e -p "::: SELECT NUMBER : " dbversion
+read -e -p "::: SELECT NUMBER DATABASE : " dbversion
 
 if [[ ("$dbversion" == "1") ]]; then
-	dbinstall="Percona Server 5.6"
-elif [[ ("$dbversion" == "2") ]]; then
 	dbinstall="MariaDB 10.3"
+elif [[ ("$dbversion" == "2") ]]; then
+    dbinstall="Percona Server 5.6"
 else
  exit 1
 fi;
@@ -158,7 +156,7 @@ echo -e "::: Install Proftpd :::"
 echo -e ":::::::::::::::::::::::"
 echo -e ""
 read -e -p "::: Install Proftpd : [y/N] : " PROFTPD
-clear
+
 show_ascii_okf
 echo -e ""
 echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
@@ -166,7 +164,7 @@ echo -e "::: You are sure you want to install the selected packages :::"
 echo -e "::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
 echo -e ""
 echo -e "   Database Type : $dbinstall"
-echo -e "   PHP Version :  $phpversioninstallation"
+echo -e "   PHP Version :  $verphpinstall"
 echo -e "   Install Proftpd : $PROFTPD"
 echo -e ""
 read -e -p "::: Type (y) to start the installation or N to cancel [y/N] : " STARTINSTALL
@@ -174,28 +172,24 @@ clear
 
 if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 
-	# Update system
 	yum -y install epel-release
 	yum -y install wget certbot openssl
 	rpm -ivh http://rpms.litespeedtech.com/centos/litespeed-repo-1.1-1.el7.noarch.rpm
-	yum -y update	
+	yum -y update
+	yum clean all
 	
 	if [[ ("$PROFTPD" == "y" || "$PROFTPD" == "Y") ]]; then
-		# Install Proftpd
 		yum -y install proftpd
 		sed -i "s/ProFTPD server/$HOSTNAME/g" /etc/proftpd.conf
 	fi;
 	
-    #Install Openlitespeed
     mkdir -p /home/defaultdomain/{html,logs}
     yum -y install openlitespeed
 	
-	#Install lsphp Version
-	if [[ ("$phpversioninstallation" == "56" || "$phpversioninstallation" == "70" || "$phpversioninstallation" == "71" || "$phpversioninstallation" == "72" || "$phpversioninstallation" == "73" || "$phpversioninstallation" == "74") ]]; then
-		yum -y install lsphp$phpversioninstallation lsphp$phpversioninstallation-bcmath lsphp$phpversioninstallation-common lsphp$phpversioninstallation-dba lsphp$phpversioninstallation-dbg lsphp$phpversioninstallation-devel lsphp$phpversioninstallation-enchant lsphp$phpversioninstallation-gd lsphp$phpversioninstallation-gmp lsphp$phpversioninstallation-imap lsphp$phpversioninstallation-intl lsphp$phpversioninstallation-json lsphp$phpversioninstallation-ldap lsphp$phpversioninstallation-mbstring lsphp$phpversioninstallation-mysqlnd lsphp$phpversioninstallation-odbc lsphp$phpversioninstallation-opcache lsphp$phpversioninstallation-pdo lsphp$phpversioninstallation-pear lsphp$phpversioninstallation-pecl-apcu-devel lsphp$phpversioninstallation-pecl-apcu-panel lsphp$phpversioninstallation-pecl-igbinary lsphp$phpversioninstallation-pecl-igbinary-devel lsphp$phpversioninstallation-pecl-mcrypt lsphp$phpversioninstallation-pecl-memcache lsphp$phpversioninstallation-pecl-msgpack lsphp$phpversioninstallation-pecl-msgpack-devel lsphp$phpversioninstallation-pgsql lsphp$phpversioninstallation-process lsphp$phpversioninstallation-pspell lsphp$phpversioninstallation-recode lsphp$phpversioninstallation-snmp lsphp$phpversioninstallation-soap lsphp$phpversioninstallation-tidy lsphp$phpversioninstallation-xml lsphp$phpversioninstallation-xmlrpc lsphp$phpversioninstallation-zip
+	if [[ ("$verphpinstall" == "56" || "$verphpinstall" == "70" || "$verphpinstall" == "71" || "$verphpinstall" == "72" || "$verphpinstall" == "73" || "$verphpinstall" == "74") ]]; then
+		yum -y install lsphp$verphpinstall lsphp$verphpinstall-bcmath lsphp$verphpinstall-common lsphp$verphpinstall-dba lsphp$verphpinstall-dbg lsphp$verphpinstall-devel lsphp$verphpinstall-enchant lsphp$verphpinstall-gd lsphp$verphpinstall-gmp lsphp$verphpinstall-imap lsphp$verphpinstall-intl lsphp$verphpinstall-json lsphp$verphpinstall-ldap lsphp$verphpinstall-mbstring lsphp$verphpinstall-mysqlnd lsphp$verphpinstall-odbc lsphp$verphpinstall-opcache lsphp$verphpinstall-pdo lsphp$verphpinstall-pear lsphp$verphpinstall-pecl-apcu-devel lsphp$verphpinstall-pecl-igbinary lsphp$verphpinstall-pecl-igbinary-devel lsphp$verphpinstall-pecl-mcrypt lsphp$verphpinstall-pecl-memcache lsphp$verphpinstall-pecl-msgpack lsphp$verphpinstall-pecl-msgpack-devel lsphp$verphpinstall-pgsql lsphp$verphpinstall-process lsphp$verphpinstall-pspell lsphp$verphpinstall-recode lsphp$verphpinstall-snmp lsphp$verphpinstall-soap lsphp$verphpinstall-tidy lsphp$verphpinstall-xml lsphp$verphpinstall-xmlrpc lsphp$verphpinstall-zip
 	fi;
 
-	#Install Database
 	if [[ ("$dbversion" == "2") ]]; then
 		wget -O /etc/yum.repos.d/MariaDB.repo $RAW_GIT/repository/MariaDB.repo
 		yum -y update
@@ -209,24 +203,17 @@ if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 	fi;
 	
 	
-	#Setting OpenLiteSpeed Web Server
 	touch $WEB_DIR/domain
 	mv -f $WEB_DIR/conf/vhosts/Example/ $WEB_DIR/conf/vhosts/defaultdomain/
 	rm -f $WEB_DIR/conf/vhosts/defaultdomain/vhconf.conf
 	rm -f $WEB_DIR/conf/httpd_config.conf
 	rm -f $WEB_DIR/admin/conf/admin_config.conf
-	
-	#Get Cofig
 	wget -O $WEB_DIR/conf/vhosts/defaultdomain/vhconf.conf $RAW_GIT/config/vhconf.conf
 	wget -O $WEB_DIR/conf/httpd_config.conf $RAW_GIT/config/httpd_config.conf
 	wget -O $WEB_DIR/admin/conf/admin_config.conf $RAW_GIT/config/admin_config.conf
-	
-	#Set Access Cofig
 	chown lsadm:lsadm $WEB_DIR/conf/vhosts/defaultdomain/vhconf.conf
 	chown lsadm:lsadm $WEB_DIR/conf/httpd_config.conf
 	chown lsadm:lsadm $WEB_DIR/admin/conf/admin_config.conf
-
-	# Make and Copy Script
 	mkdir /webserver
 	wget -O /webserver/web_create $RAW_GIT/webserver/web_create
 	wget -O /webserver/web_remove $RAW_GIT/webserver/web_remove
@@ -235,14 +222,12 @@ if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 	wget -O /usr/bin/lsws $RAW_GIT/webserver/lsws
 	chmod +x /usr/bin/lsws
 	chmod +x /webserver/*
-	
-	#Copy Templates
 	wget -O $WEB_DIR/conf/templates/incl.conf $RAW_GIT/templates/incl.conf
 	wget -O $WEB_DIR/conf/templates/vhconf.conf $RAW_GIT/templates/vhconf.conf
 	
-# Create Content in Homedir and logs
-touch /home/defaultdomain/html/.htaccess
-touch /home/defaultdomain/logs/{error.log,access.log}
+	touch /home/defaultdomain/html/.htaccess
+	touch /home/defaultdomain/logs/{error.log,access.log}
+
 cat << EOT > /home/defaultdomain/html/index.php
 <?php
 echo "https://www.okflash.net - Its Works!";
@@ -251,7 +236,6 @@ EOT
 
 chown -R nobody:nobody /home/defaultdomain/html/
 
-# Installing PHPMYAdmin
 mkdir $WEB_DIR/phpmyadmin
 mkdir $WEB_DIR/phpmyadmin/{html,logs}
 mkdir $WEB_DIR/conf/vhosts/phpmyadmin
@@ -269,6 +253,8 @@ mkdir tmp
 rm -f phpmyadmin.tar.gz && rm -rf phpMyAdmin-4.8.2-all-languages
 cd /
 chown -R lsadm:lsadm $WEB_DIR/phpmyadmin/
+mkdir /var/lib/php/session
+chown -R nobody:nobody /var/lib/php/session
 
 # Generate cerificare for PMA
 openssl genrsa -out $WEB_DIR/conf/cert/phpmyadmin/phpmyadmin.key 2048
@@ -299,7 +285,7 @@ mysql -uroot -v -e "DROP DATABASE test;"
 mysql -uroot -v -e "DELETE FROM mysql.user WHERE User='';"
 mysql -uroot -v -e "use mysql;update user set Password=PASSWORD('$PWD_SQL_DATABASE') where user='root'; flush privileges;"
 
-# Save Password root MariaDB
+# Save Password Database
 cat << EOT > /root/.MariaDB
 $PWD_SQL_DATABASE
 EOT
