@@ -211,7 +211,7 @@ if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 	
 	#Setting OpenLiteSpeed Web Server
 	touch $WEB_DIR/domain
-	mv -f $WEB_DIR/conf/vhosts/Example/ $WEB_DIR/config/vhosts/defaultdomain/
+	mv -f $WEB_DIR/conf/vhosts/Example/ $WEB_DIR/conf/vhosts/defaultdomain/
 	rm -f $WEB_DIR/conf/vhosts/defaultdomain/vhconf.conf
 	rm -f $WEB_DIR/conf/httpd_config.conf
 	rm -f $WEB_DIR/admin/conf/admin_config.conf
