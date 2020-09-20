@@ -227,14 +227,14 @@ if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 	chown lsadm:lsadm $WEB_DIR/admin/conf/admin_config.conf
 
 	# Make and Copy Script
-	mkdir /scripts
-	wget -O /scripts/lscreate $RAW_GIT/scripts/lscreate
-	wget -O /scripts/lsremove $RAW_GIT/scripts/lsremove
-	wget -O /scripts/certbot $RAW_GIT/scripts/certbot
-	wget -O /scripts/createdb $RAW_GIT/scripts/createdb
-	wget -O /usr/bin/lsws $RAW_GIT/scripts/lsws
+	mkdir /webserver
+	wget -O /webserver/web_create $RAW_GIT/webserver/web_create
+	wget -O /webserver/web_remove $RAW_GIT/webserver/web_remove
+	wget -O /webserver/web_ssl $RAW_GIT/webserver/web_ssl
+	wget -O /webserver/web_createdb $RAW_GIT/webserver/web_createdb
+	wget -O /usr/bin/lsws $RAW_GIT/webserver/lsws
 	chmod +x /usr/bin/lsws
-	chmod +x /scripts/*
+	chmod +x /webserver/*
 	
 	#Copy Templates
 	wget -O $WEB_DIR/conf/templates/incl.conf $RAW_GIT/templates/incl.conf
