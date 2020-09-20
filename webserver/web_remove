@@ -2,7 +2,6 @@
 
 echo "Domain name (Without www):"
 read DOMAIN
-
 HOMEDIR="/home/$DOMAIN"
 VHOSTDIR="/usr/local/lsws/conf/vhosts/$DOMAIN"
 CERTDIR="/usr/local/lsws/conf/cert/$DOMAIN"
