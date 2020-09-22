@@ -190,11 +190,11 @@ if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 		yum -y install lsphp$verphpinstall lsphp$verphpinstall-bcmath lsphp$verphpinstall-common lsphp$verphpinstall-dba lsphp$verphpinstall-dbg lsphp$verphpinstall-devel lsphp$verphpinstall-enchant lsphp$verphpinstall-gd lsphp$verphpinstall-gmp lsphp$verphpinstall-imap lsphp$verphpinstall-intl lsphp$verphpinstall-json lsphp$verphpinstall-ldap lsphp$verphpinstall-mbstring lsphp$verphpinstall-mysqlnd lsphp$verphpinstall-odbc lsphp$verphpinstall-opcache lsphp$verphpinstall-pdo lsphp$verphpinstall-pear lsphp$verphpinstall-pecl-apcu-devel lsphp$verphpinstall-pecl-igbinary lsphp$verphpinstall-pecl-igbinary-devel lsphp$verphpinstall-pecl-mcrypt lsphp$verphpinstall-pecl-memcache lsphp$verphpinstall-pecl-msgpack lsphp$verphpinstall-pecl-msgpack-devel lsphp$verphpinstall-pgsql lsphp$verphpinstall-process lsphp$verphpinstall-pspell lsphp$verphpinstall-recode lsphp$verphpinstall-snmp lsphp$verphpinstall-soap lsphp$verphpinstall-tidy lsphp$verphpinstall-xml lsphp$verphpinstall-xmlrpc lsphp$verphpinstall-zip
 	fi;
 
-	if [[ ("$dbversion" == "2") ]]; then
+	if [[ ("$dbversion" == "1") ]]; then
 		wget -O /etc/yum.repos.d/MariaDB.repo $RAW_GIT/repository/MariaDB.repo
 		yum -y update
 		yum -y install MariaDB-server MariaDB-client
-	elif [[ ("$dbversion" == "1") ]]; then
+	elif [[ ("$dbversion" == "2") ]]; then
 		yum -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
 		yum -y install http://repo.percona.com/centos/7/RPMS/x86_64/Percona-Server-selinux-56-5.6.45-rel86.1.el7.noarch.rpm	
 		yum -y update
