@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COL_NC='\e[0m' # No Color
+COL_NC='\e[0m' #No Color
 COL_LIGHT_GREEN='\e[1;32m'
 COL_LIGHT_RED='\e[1;31m'
 TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
@@ -230,7 +230,7 @@ if [[ ("$STARTINSTALL" == "y" || "$STARTINSTALL" == "Y") ]]; then
 
 cat << EOT > /home/defaultdomain/html/index.php
 <?php
-echo "https://www.okflash.net - Its Works!";
+echo "https://www.okflash.net - Web Base Its Works!";
 ?>
 EOT
 
